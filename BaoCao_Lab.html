@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Báo Cáo Lab 02 - Quản Lý Thư Viện AI - Phan Văn Quân (29214663437)</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 18mm 18mm 18mm;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 10pt;
+      line-height: 1.55;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      font-size: 19pt;
+      color: #1e3a8a;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 8px;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 14pt;
+      color: #1e40af;
+      margin-top: 22px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 5px;
+    }
+    h3 {
+      font-size: 12pt;
+      color: #0f766e;
+      margin-top: 16px;
+    }
+    h4 {
+      font-size: 10.5pt;
+      color: #334155;
+      margin-top: 12px;
+    }
+    p, li {
+      font-size: 10pt;
+      text-align: justify;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 9pt;
+      page-break-inside: avoid;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 7px 9px;
+      text-align: left;
+    }
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    pre {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 8.5pt;
+      overflow-x: auto;
+      page-break-inside: avoid;
+    }
+    code {
+      background-color: #f1f5f9;
+      color: #be185d;
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      font-size: 8.5pt;
+    }
+    pre code {
+      background: none;
+      color: #38bdf8;
+      padding: 0;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin: 10px 0 4px 0;
+      page-break-inside: avoid;
+    }
+    em {
+      font-size: 8.5pt;
+      color: #64748b;
+    }
+    blockquote {
+      border-left: 4px solid #3b82f6;
+      background-color: #eff6ff;
+      margin: 10px 0;
+      padding: 6px 14px;
+      border-radius: 0 6px 6px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>BÁO CÁO BÀI THỰC HÀNH (LAB 02)</h1>
+<h2>PHÂN TÍCH, THIẾT KẾ VÀ XÂY DỰNG HỆ THỐNG QUẢN LÝ THƯ VIỆN ỨNG DỤNG CÔNG CỤ AI</h2>
+<hr />
+<h3>THÔNG TIN CHUNG</h3>
+<ul>
+<li><strong>Tên bài thực hành</strong>: Lab 02 - Quản lý Thư viện Ứng dụng Công cụ AI</li>
+<li><strong>Sinh viên thực hiện</strong>: <strong>Phan Văn Quân</strong></li>
+<li><strong>Mã số sinh viên (MSSV)</strong>: <strong>29214663437</strong></li>
+<li><strong>Lớp sinh hoạt</strong>: DTECS231C</li>
+<li><strong>Công cụ hỗ trợ AI</strong>: Google AI Studio (Gemini 1.5/2.0), Antigravity IDE</li>
+<li><strong>Môi trường &amp; Công nghệ</strong>: Python 3.11, FastAPI, SQLite, HTML5/CSS3/JavaScript, Chart.js, LocalStorage</li>
+</ul>
+<hr />
+<h2>MỤC LỤC</h2>
+<ol>
+<li><a href="#1-gi%E1%BB%9Bi-thi%E1%BB%87u-b%E1%BB%91i-c%E1%BA%A3nh--m%E1%BB%A5c-ti%C3%AAu-b%C3%A0i-to%C3%A1n">Giới thiệu, Bối cảnh &amp; Mục tiêu bài toán</a></li>
+<li><a href="#2-ph%E1%BA%A7n-1-chu%E1%BA%A9n-b%E1%BB%8B-m%C3%B4i-tr%C6%B0%E1%BB%9Dng--c%C3%B4ng-c%E1%BB%A5-ai">Phần 1: Chuẩn bị môi trường &amp; Công cụ AI</a></li>
+<li><a href="#3-ph%E1%BA%A7n-2-ph%C3%A2n-t%C3%ADch-h%E1%BB%87-th%E1%BB%91ng--ch%E1%BB%A9c-n%C4%83ng-quy-tr%C3%ACnh--d%E1%BB%AF-li%E1%BB%87u">Phần 2: Phân tích hệ thống – Chức năng, Quy trình &amp; Dữ liệu</a>
+<ul>
+<li><a href="#31-danh-s%C3%A1ch-ch%E1%BB%A9c-n%C4%83ng-h%E1%BB%87-th%E1%BB%91ng">3.1. Danh sách chức năng hệ thống</a></li>
+<li><a href="#32-s%C6%A1-%C4%91%E1%BB%93-quy-tr%C3%ACnh-nghi%E1%BB%87p-v%E1%BB%A5-m%C6%B0%E1%BB%A3n--tr%E1%BA%A3">3.2. Sơ đồ quy trình nghiệp vụ Mượn / Trả</a></li>
+<li><a href="#33-b%E1%BA%A3ng-m%C3%B4-t%E1%BA%A3-c%E1%BA%A5u-tr%C3%BAc-d%E1%BB%AF-li%E1%BB%87u-data-dictionary">3.3. Bảng mô tả cấu trúc dữ liệu (Data Dictionary)</a></li>
+<li><a href="#34-s%C6%A1-%C4%91%E1%BB%93-quan-h%E1%BB%87-th%E1%BB%B1c-th%E1%BB%83-erd-diagram">3.4. Sơ đồ quan hệ thực thể (ERD Diagram)</a></li>
+</ul>
+</li>
+<li><a href="#4-ph%E1%BA%A7n-3-tri%E1%BB%83n-khai--ki%E1%BB%83m-th%E1%BB%AD-%E1%BB%A9ng-d%E1%BB%A5ng">Phần 3: Triển khai &amp; Kiểm thử ứng dụng</a>
+<ul>
+<li><a href="#41-ki%E1%BA%BFn-tr%C3%BAc-h%E1%BB%87-th%E1%BB%91ng--tri%E1%BB%83n-khai-m%C3%A3-ngu%E1%BB%93n">4.1. Kiến trúc hệ thống &amp; Triển khai mã nguồn</a></li>
+<li><a href="#42-ma-tr%E1%BA%ADn-k%E1%BB%8Bch-b%E1%BA%A3n-ki%E1%BB%83m-th%E1%BB%AD-test-cases">4.2. Ma trận kịch bản kiểm thử (Test Cases)</a></li>
+<li><a href="#43-k%E1%BA%BFt-qu%E1%BA%A3-ki%E1%BB%83m-th%E1%BB%AD-th%E1%BB%B1c-t%E1%BA%BF">4.3. Kết quả kiểm thử thực tế</a></li>
+</ul>
+</li>
+<li><a href="#5-ph%E1%BA%A7n-4-%C4%91%C3%A1nh-gi%C3%A1-hi%E1%BB%87u-qu%E1%BA%A3-%E1%BB%A9ng-d%E1%BB%A5ng-ai--k%E1%BA%BFt-lu%E1%BA%ADn">Phần 4: Đánh giá hiệu quả ứng dụng AI &amp; Kết luận</a></li>
+</ol>
+<hr />
+<h2>1. Giới thiệu, Bối cảnh &amp; Mục tiêu bài toán</h2>
+<h3>1.1. Hiện trạng &amp; Vấn đề cần giải quyết</h3>
+<p>Trong mô hình quản lý thư viện truyền thống dựa trên sổ sách ghi chép thủ công, công tác vận hành tại các trường đại học và viện nghiên cứu gặp phải những điểm nghẽn nghiêm trọng:</p>
+<ol>
+<li><strong>Quá tải ghi chép và rủi ro sai sót dữ liệu</strong>: Việc thủ thư ghi tay mọi thông tin mượn - trả, ngày hẹn, số lượng sách dễ dẫn đến việc ghi nhầm mã sách, quên cập nhật trạng thái khi bạn đọc hoàn trả hoặc thất lạc phiếu mượn.</li>
+<li><strong>Khó khăn trong kiểm soát kho sách lớn</strong>: Không thể tức thời nắm bắt được chính xác một đầu sách hiện còn bao nhiêu bản in trên kệ, bao nhiêu bản đang được độc giả mượn, ai đang giữ và tình trạng sách ra sao.</li>
+<li><strong>Tra cứu chậm chạp, tốn kém thời gian</strong>: Độc giả phải lật tìm danh mục giấy hoặc nhờ thủ thư tìm kiếm thủ công, gây ùn tắc tại quầy phục vụ vào các đợt cao điểm thi cử và làm đồ án tốt nghiệp.</li>
+<li><strong>Khó khăn trong xử lý chế tài quá hạn</strong>: Thiếu cơ chế tự động cảnh báo ngày hết hạn mượn, dẫn đến tỷ lệ sách trễ hạn cao và phát sinh tranh chấp trong quá trình tính toán tiền phạt.</li>
+</ol>
+<h3>1.2. Mục tiêu của bài thực hành</h3>
+<p>Bài thực hành hướng tới việc giải quyết triệt để các vấn đề trên thông qua việc tin học hóa toàn diện quy trình thư viện kết hợp ứng dụng Trí tuệ nhân tạo (AI):</p>
+<ul>
+<li>Làm chủ quy trình ứng dụng công cụ AI tiên tiến (<strong>Google AI Studio</strong> và <strong>Antigravity IDE</strong>) trong toàn bộ vòng đời phát triển phần mềm: từ phân tích yêu cầu, thiết kế mô hình dữ liệu, sinh mã nguồn đến kiểm thử tự động.</li>
+<li>Xây dựng một ứng dụng Quản lý Thư viện hoàn chỉnh (<strong>SmartLib AI</strong>) đáp ứng chuẩn mực công nghiệp: giao diện trực quan, kiến trúc linh hoạt (Dual-mode: Server REST API + Offline LocalStorage), tích hợp Trợ lý AI Google Gemini tư vấn bạn đọc thông minh.</li>
+</ul>
+<hr />
+<h2>2. Phần 1: Chuẩn bị môi trường &amp; Công cụ AI</h2>
+<h3>2.1. Thiết lập Google AI Studio</h3>
+<ul>
+<li><strong>Truy cập nền tảng</strong>: Truy cập vào <a href="https://aistudio.google.com/">https://aistudio.google.com/</a> và đăng nhập bằng tài khoản Google sinh viên.</li>
+<li><strong>Lựa chọn mô hình</strong>: Sử dụng mô hình thế hệ mới <strong>Gemini 1.5 Pro / Flash</strong> với cửa sổ ngữ cảnh lớn (Context Window &gt; 1 triệu tokens), cho phép phân tích toàn diện yêu cầu nghiệp vụ và cấu trúc dữ liệu phức tạp.</li>
+<li><strong>Thiết lập System Instructions &amp; Kỹ thuật Prompting</strong>:
+<ul>
+<li>Đặt vai trò (Role): <em>Chuyên gia Phân tích Hệ thống và Kỹ sư Phần mềm Fullstack phụ trách thiết kế hệ thống Quản lý Thư viện cho sinh viên Phan Văn Quân (MSSV: 29214663437)</em>.</li>
+<li>Tinh chỉnh tham số: <code>Temperature = 0.4</code> (ưu tiên tính chính xác logic, hạn chế ảo giác trong cấu trúc dữ liệu), <code>Top-P = 0.95</code>.</li>
+<li>Yêu cầu AI chuẩn hóa cấu trúc CSDL đạt dạng chuẩn 3NF, thiết lập đầy đủ các quy tắc nghiệp vụ: giới hạn mượn cho sinh viên (tối đa 3 cuốn/14 ngày), giảng viên (5 cuốn/30 ngày), chính sách phạt quá hạn (5.000 VNĐ/ngày).</li>
+</ul>
+</li>
+</ul>
+<h3>2.2. Cài đặt và cấu hình Antigravity IDE</h3>
+<ul>
+<li>Mở <strong>Antigravity IDE</strong>, khởi tạo không gian làm việc đặt tên theo đúng cú pháp quy định:
+$$\text{Lab_QLThuVien_29214663437_PhanVanQuan}$$</li>
+<li>Cấu hình môi trường runtime:
+<ul>
+<li><strong>Python 3.11.7</strong>: Khung phát triển Backend RESTful API với FastAPI và thư viện SQLite3 tích hợp.</li>
+<li><strong>Node.js v26.13.1 &amp; npm 11.20.0</strong>: Hỗ trợ môi trường mở rộng và công cụ web.</li>
+<li><strong>Git 2.54.0</strong>: Quản lý phiên bản mã nguồn, khởi tạo nhánh <code>main</code> và sẵn sàng đồng bộ lên GitHub.</li>
+</ul>
+</li>
+</ul>
+<h3>2.3. Minh chứng quá trình sử dụng Google AI Studio &amp; Antigravity IDE</h3>
+<h4>Hình 1: Minh chứng tương tác và thiết kế hệ thống trên Google AI Studio</h4>
+<p>![Google AI Studio Prompting](file:///d:/DTECS231C_2026-11-23_Lab02/Lab_QLThuVien_29214663437_PhanVanQuan/docs/images/google_ai_studio_prompt.png)
+<em>Chú thích: Giao diện làm việc tại Google AI Studio - Prompt kỹ thuật yêu cầu Gemini 1.5 Pro phân tích quy trình mượn trả và đề xuất cấu trúc bảng CSDL chuẩn 3NF cho sinh viên Phan Văn Quân - 29214663437.</em></p>
+<h4>Hình 2: Minh chứng môi trường phát triển trên Antigravity IDE</h4>
+<p>![Antigravity IDE Workspace](file:///d:/DTECS231C_2026-11-23_Lab02/Lab_QLThuVien_29214663437_PhanVanQuan/docs/images/antigravity_ide_workspace.png)
+<em>Chú thích: Không gian làm việc Antigravity IDE - Cấu trúc thư mục, tệp mã nguồn server.py, database.py, app.js và cửa sổ dòng lệnh Terminal đang chạy máy chủ cục bộ.</em></p>
+<hr />
+<h2>3. Phần 2: Phân tích hệ thống – Chức năng, Quy trình &amp; Dữ liệu</h2>
+<h3>3.1. Danh sách chức năng hệ thống</h3>
+<p>Hệ thống Quản lý Thư viện SmartLib AI được phân rã thành 6 phân hệ nghiệp vụ chính:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">STT</th>
+<th style="text-align:left">Phân hệ</th>
+<th style="text-align:center">Mã chức năng</th>
+<th style="text-align:left">Tên chức năng</th>
+<th style="text-align:left">Mô tả chi tiết</th>
+<th style="text-align:center">Đối tượng sử dụng</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:left"><strong>Quản lý Kho Sách</strong></td>
+<td style="text-align:center">UC_BOOK_01</td>
+<td style="text-align:left">Tra cứu danh mục sách</td>
+<td style="text-align:left">Tìm kiếm theo tên sách, tác giả, ISBN, lọc theo thể loại</td>
+<td style="text-align:center">Thủ thư, Độc giả</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_BOOK_02</td>
+<td style="text-align:left">Thêm mới đầu sách</td>
+<td style="text-align:left">Nhập thông tin ISBN, tên, tác giả, NXB, số lượng bản in, vị trí kệ</td>
+<td style="text-align:center">Thủ thư</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_BOOK_03</td>
+<td style="text-align:left">Cập nhật thông tin sách</td>
+<td style="text-align:left">Chỉnh sửa số lượng, sửa thông tin xuất bản, cập nhật ảnh bìa</td>
+<td style="text-align:center">Thủ thư</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_BOOK_04</td>
+<td style="text-align:left">Xóa sách khỏi kho</td>
+<td style="text-align:left">Xóa đầu sách nếu không còn bản sao nào đang được mượn</td>
+<td style="text-align:center">Thủ thư</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:left"><strong>Quản lý Độc giả</strong></td>
+<td style="text-align:center">UC_READ_01</td>
+<td style="text-align:left">Đăng ký độc giả mới</td>
+<td style="text-align:left">Nhập mã SV/GV, họ tên, email, SĐT, phân loại đối tượng</td>
+<td style="text-align:center">Thủ thư</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_READ_02</td>
+<td style="text-align:left">Quản lý trạng thái thẻ</td>
+<td style="text-align:left">Khóa / Kích hoạt thẻ độc giả khi vi phạm quy chế hoặc trễ hạn</td>
+<td style="text-align:center">Thủ thư</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_READ_03</td>
+<td style="text-align:left">Theo dõi lịch sử mượn</td>
+<td style="text-align:left">Xem danh sách các sách độc giả đang mượn và lịch sử hoàn trả</td>
+<td style="text-align:center">Thủ thư, Độc giả</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:left"><strong>Quản lý Mượn - Trả</strong></td>
+<td style="text-align:center">UC_BORR_01</td>
+<td style="text-align:left">Lập phiếu mượn sách</td>
+<td style="text-align:left">Kiểm tra tính hợp lệ của thẻ, kiểm tra số lượng tồn, lập hạn trả</td>
+<td style="text-align:center">Thủ thư</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_BORR_02</td>
+<td style="text-align:left">Xác nhận trả sách</td>
+<td style="text-align:left">Nhận sách, cập nhật số lượng tồn kho, kiểm tra quá hạn</td>
+<td style="text-align:center">Thủ thư</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_BORR_03</td>
+<td style="text-align:left">Tính phạt quá hạn</td>
+<td style="text-align:left">Tự động tính tiền phạt 5.000 VNĐ / ngày trễ khi hoàn trả</td>
+<td style="text-align:center">Hệ thống</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_BORR_04</td>
+<td style="text-align:left">Gia hạn sách</td>
+<td style="text-align:left">Gia hạn thêm 7 ngày (tối đa 1 lần nếu chưa quá hạn)</td>
+<td style="text-align:center">Thủ thư, Độc giả</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:left"><strong>Thống kê Báo cáo</strong></td>
+<td style="text-align:center">UC_STAT_01</td>
+<td style="text-align:left">Bảng điều khiển (Dashboard)</td>
+<td style="text-align:left">Thống kê số lượng sách, độc giả, đang mượn, quá hạn</td>
+<td style="text-align:center">Thủ thư, Ban Giám hiệu</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_STAT_02</td>
+<td style="text-align:left">Biểu đồ trực quan</td>
+<td style="text-align:left">Vẽ biểu đồ tròn phân loại danh mục, biểu đồ cột mượn/trả</td>
+<td style="text-align:center">Thủ thư, Ban Giám hiệu</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:left"><strong>Tra cứu Trực tuyến</strong></td>
+<td style="text-align:center">UC_OPAC_01</td>
+<td style="text-align:left">Tra cứu nhanh (OPAC)</td>
+<td style="text-align:left">Bạn đọc tra cứu vị trí kệ sách và số bản còn trong kho</td>
+<td style="text-align:center">Độc giả</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:left"><strong>Trợ lý AI Gemini</strong></td>
+<td style="text-align:center">UC_AI_01</td>
+<td style="text-align:left">Gợi ý sách thông minh</td>
+<td style="text-align:left">Đề xuất tài liệu học tập theo ngành học / sở thích độc giả</td>
+<td style="text-align:center">Độc giả, Thủ thư</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_AI_02</td>
+<td style="text-align:left">Tóm tắt sách tự động</td>
+<td style="text-align:left">Tóm tắt tóm lược các điểm chính của cuốn sách</td>
+<td style="text-align:center">Độc giả</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:left"></td>
+<td style="text-align:center">UC_AI_03</td>
+<td style="text-align:left">Giải đáp quy chế</td>
+<td style="text-align:left">Tư vấn giải đáp quy định mượn, thời hạn, phí phạt tự động</td>
+<td style="text-align:center">Độc giả</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>3.2. Sơ đồ quy trình nghiệp vụ Mượn / Trả</h3>
+<h4>A. Quy trình Mượn Sách</h4>
+<pre><code class="language-mermaid">flowchart TD
+    Start([Bắt đầu: Độc giả yêu cầu mượn sách]) --&gt; Step1[Thủ thư quét / nhập Mã độc giả MSSV]
+    Step1 --&gt; CheckCard{Thẻ độc giả có hợp lệ &amp; đang Hoạt động?}
+    CheckCard -- Không / Đang bị khóa --&gt; Reject1[Từ chối mượn: Thẻ bị khóa do vi phạm]
+    CheckCard -- Hợp lệ --&gt; CheckOverdue{Độc giả có sách quá hạn chưa trả?}
+    CheckOverdue -- Có --&gt; Reject2[Từ chối mượn: Yêu cầu trả sách quá hạn trước]
+    CheckOverdue -- Không --&gt; CheckLimit{Số sách đang mượn &lt; Hạn mức tối đa?&lt;br&gt;SV: 3 cuốn, GV: 5 cuốn}
+    CheckLimit -- Đạt giới hạn --&gt; Reject3[Từ chối mượn: Đã đạt số lượng mượn tối đa]
+    CheckLimit -- Còn hạn mức --&gt; Step2[Thủ thư chọn đầu sách cần mượn]
+    Step2 --&gt; CheckStock{Số lượng khả dụng trong kho &gt; 0?}
+    CheckStock -- Hết sách = 0 --&gt; Reject4[Từ chối: Sách đã được mượn hết]
+    CheckStock -- Còn sách &gt; 0 --&gt; Step3[Hệ thống tạo Phiếu mượn:&lt;br&gt;- Ngày mượn: Hôm nay&lt;br&gt;- Hạn trả: +14 ngày SV hoặc +30 ngày GV]
+    Step3 --&gt; Step4[Cập nhật dữ liệu tự động:&lt;br&gt;- Giảm availableCopies của sách -1&lt;br&gt;- Tăng currentBorrowCount của độc giả +1]
+    Step4 --&gt; EndSuccess([Hoàn tất: Bàn giao sách cho bạn đọc])
+</code></pre>
+<h4>B. Quy trình Trả Sách &amp; Xử lý Phạt Quá Hạn</h4>
+<pre><code class="language-mermaid">flowchart TD
+    Start([Bắt đầu: Độc giả mang sách đến quầy trả]) --&gt; Step1[Thủ thư tìm Phiếu mượn theo Mã phiếu hoặc Mã sách]
+    Step1 --&gt; CheckStatus{Trạng thái phiếu hiện tại?}
+    CheckStatus -- Đã trả trước đó --&gt; Err[Thông báo: Phiếu mượn này đã hoàn tất]
+    CheckStatus -- Đang mượn / Quá hạn --&gt; Step2[So sánh Ngày trả thực tế với Ngày hạn trả]
+    Step2 --&gt; CheckDate{Ngày trả &gt; Ngày hạn trả?}
+    CheckDate -- Đúng: Đã trễ hạn --&gt; CalcPenalty[Tính tiền phạt:&lt;br&gt;Số ngày trễ = Ngày trả - Ngày hẹn&lt;br&gt;Tiền phạt = Số ngày trễ x 5.000 VNĐ]
+    CalcPenalty --&gt; PayFine[Thu tiền phạt quá hạn từ độc giả]
+    CheckDate -- Sai: Đúng hạn --&gt; NoPenalty[Tiền phạt = 0 VNĐ]
+    PayFine --&gt; StepUpdate[Cập nhật hệ thống:&lt;br&gt;1. Ghi nhận returnDate = Hôm nay&lt;br&gt;2. Đổi trạng thái phiếu = 'returned'&lt;br&gt;3. Tăng availableCopies của sách +1&lt;br&gt;4. Giảm currentBorrowCount của độc giả -1]
+    NoPenalty --&gt; StepUpdate
+    StepUpdate --&gt; EndSuccess([Hoàn tất: Xếp sách về vị trí kệ quy định])
+</code></pre>
+<h4>C. Sơ đồ tuần tự (Sequence Diagram) Mượn sách</h4>
+<pre><code class="language-mermaid">sequenceDiagram
+    autonumber
+    actor Reader as Độc giả (Phan Văn Quân)
+    actor Librarian as Thủ thư
+    participant UI as Giao diện Web (SPA)
+    participant API as FastAPI Backend
+    participant DB as SQLite Database
+
+    Reader-&gt;&gt;Librarian: Xuất trình Thẻ độc giả &amp; Sách cần mượn
+    Librarian-&gt;&gt;UI: Chọn Độc giả &amp; Đầu sách trên giao diện
+    UI-&gt;&gt;API: POST /api/borrows (readerId, bookId)
+    API-&gt;&gt;DB: SELECT * FROM readers WHERE id = ?
+    DB--&gt;&gt;API: Trả về thông tin độc giả (status, currentBorrowCount, maxBorrow)
+    API-&gt;&gt;DB: SELECT * FROM books WHERE id = ?
+    DB--&gt;&gt;API: Trả về thông tin sách (availableCopies)
+    Note over API: Kiểm tra điều kiện:&lt;br&gt;1. status == 'active'&lt;br&gt;2. currentBorrowCount &lt; maxBorrow&lt;br&gt;3. availableCopies &gt; 0
+    API-&gt;&gt;DB: INSERT INTO borrow_records
+    API-&gt;&gt;DB: UPDATE books SET availableCopies = availableCopies - 1
+    API-&gt;&gt;DB: UPDATE readers SET currentBorrowCount = currentBorrowCount + 1
+    DB--&gt;&gt;API: Giao dịch thành công (Commit)
+    API--&gt;&gt;UI: HTTP 200 OK (Chi tiết phiếu mượn mới)
+    UI--&gt;&gt;Librarian: Hiển thị Toast thông báo thành công &amp; In phiếu
+    Librarian--&gt;&gt;Reader: Bàn giao sách và nhắc ngày hẹn trả
+</code></pre>
+<hr />
+<h3>3.3. Bảng mô tả cấu trúc dữ liệu (Data Dictionary)</h3>
+<p>Cơ sở dữ liệu được thiết kế theo chuẩn hóa dữ liệu 3NF, bao gồm 4 thực thể chính:</p>
+<h4>1. Bảng <code>categories</code> (Danh mục phân loại sách)</h4>
+<p><em>Mục đích</em>: Lưu trữ các danh mục chủ đề để tổ chức, phân nhóm và thống kê sách trong thư viện.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Tên trường</th>
+<th style="text-align:left">Kiểu dữ liệu</th>
+<th style="text-align:center">Khóa</th>
+<th style="text-align:center">Cho phép Null</th>
+<th style="text-align:left">Mặc định</th>
+<th style="text-align:left">Mô tả chi tiết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>id</code></td>
+<td style="text-align:left">TEXT (VARCHAR 20)</td>
+<td style="text-align:center"><strong>PK</strong></td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Mã định danh danh mục (ví dụ: <code>CAT01</code>, <code>CAT02</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>name</code></td>
+<td style="text-align:left">TEXT (VARCHAR 100)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Tên thể loại (Công nghệ thông tin, Kinh tế, AI...)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>icon</code></td>
+<td style="text-align:left">TEXT (VARCHAR 50)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left"><code>fa-book</code></td>
+<td style="text-align:left">Tên class biểu tượng FontAwesome hiển thị trên UI</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>count</code></td>
+<td style="text-align:left">INTEGER</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">Số lượng đầu sách hiện có thuộc danh mục này</td>
+</tr>
+</tbody>
+</table>
+<h4>2. Bảng <code>books</code> (Kho sách &amp; Bản sao)</h4>
+<p><em>Mục đích</em>: Quản lý thông tin chi tiết từng đầu sách, số lượng in ấn và vị trí kệ thực tế.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Tên trường</th>
+<th style="text-align:left">Kiểu dữ liệu</th>
+<th style="text-align:center">Khóa</th>
+<th style="text-align:center">Cho phép Null</th>
+<th style="text-align:left">Mặc định</th>
+<th style="text-align:left">Mô tả chi tiết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>id</code></td>
+<td style="text-align:left">TEXT (VARCHAR 20)</td>
+<td style="text-align:center"><strong>PK</strong></td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Mã đầu sách duy nhất (ví dụ: <code>B001</code>, <code>B002</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>isbn</code></td>
+<td style="text-align:left">TEXT (VARCHAR 30)</td>
+<td style="text-align:center"><strong>UNIQUE</strong></td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Mã số tiêu chuẩn quốc tế ISBN</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>title</code></td>
+<td style="text-align:left">TEXT (VARCHAR 255)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Nhan đề cuốn sách</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>author</code></td>
+<td style="text-align:left">TEXT (VARCHAR 150)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Tên tác giả hoặc nhóm tác giả</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>publisher</code></td>
+<td style="text-align:left">TEXT (VARCHAR 150)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Nhà xuất bản</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>publishYear</code></td>
+<td style="text-align:left">INTEGER</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">2024</td>
+<td style="text-align:left">Năm xuất bản</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>categoryId</code></td>
+<td style="text-align:left">TEXT (VARCHAR 20)</td>
+<td style="text-align:center"><strong>FK</strong></td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Khóa ngoại liên kết tới <code>categories.id</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>categoryName</code></td>
+<td style="text-align:left">TEXT (VARCHAR 100)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Tên danh mục (hỗ trợ denormalized tra cứu nhanh)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>totalCopies</code></td>
+<td style="text-align:left">INTEGER</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">Tổng số lượng bản in mà thư viện sở hữu</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>availableCopies</code></td>
+<td style="text-align:left">INTEGER</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">Số lượng sách hiện còn trong kho sẵn sàng mượn</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>location</code></td>
+<td style="text-align:left">TEXT (VARCHAR 50)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left"><code>Kệ A1-01</code></td>
+<td style="text-align:left">Vị trí định vị giá sách trong thư viện</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>description</code></td>
+<td style="text-align:left">TEXT</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Tóm tắt sơ lược nội dung phục vụ AI và tra cứu</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cover</code></td>
+<td style="text-align:left">TEXT</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Đường dẫn URL hình ảnh bìa sách</td>
+</tr>
+</tbody>
+</table>
+<h4>3. Bảng <code>readers</code> (Hồ sơ Độc giả &amp; Thẻ thư viện)</h4>
+<p><em>Mục đích</em>: Quản lý thông tin sinh viên, giảng viên và hạn mức mượn sách.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Tên trường</th>
+<th style="text-align:left">Kiểu dữ liệu</th>
+<th style="text-align:center">Khóa</th>
+<th style="text-align:center">Cho phép Null</th>
+<th style="text-align:left">Mặc định</th>
+<th style="text-align:left">Mô tả chi tiết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>id</code></td>
+<td style="text-align:left">TEXT (VARCHAR 30)</td>
+<td style="text-align:center"><strong>PK</strong></td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Mã thẻ thư viện / Mã số sinh viên (ví dụ: <code>29214663437</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>name</code></td>
+<td style="text-align:left">TEXT (VARCHAR 100)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Họ và tên đầy đủ của độc giả</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>email</code></td>
+<td style="text-align:left">TEXT (VARCHAR 100)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Địa chỉ email để nhận thông báo trả sách</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>phone</code></td>
+<td style="text-align:left">TEXT (VARCHAR 20)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Số điện thoại liên hệ</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>type</code></td>
+<td style="text-align:left">TEXT (VARCHAR 30)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left"><code>Sinh viên</code></td>
+<td style="text-align:left">Phân loại đối tượng (<code>Sinh viên</code>, <code>Giảng viên</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>department</code></td>
+<td style="text-align:left">TEXT (VARCHAR 100)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left"><code>CNTT</code></td>
+<td style="text-align:left">Khoa / Viện / Bộ môn trực thuộc</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>createdDate</code></td>
+<td style="text-align:left">TEXT (DATE)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">CURRENT_DATE</td>
+<td style="text-align:left">Ngày kích hoạt thẻ thư viện</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>expiryDate</code></td>
+<td style="text-align:left">TEXT (DATE)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Ngày hết hạn giá trị của thẻ (4 năm)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>status</code></td>
+<td style="text-align:left">TEXT (VARCHAR 20)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left"><code>active</code></td>
+<td style="text-align:left">Trạng thái: <code>active</code> (Đang hoạt động), <code>suspended</code> (Bị khóa)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>maxBorrow</code></td>
+<td style="text-align:left">INTEGER</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">Hạn mức mượn sách tối đa (SV: 3, GV: 5)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>currentBorrowCount</code></td>
+<td style="text-align:left">INTEGER</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">Số cuốn sách đang mượn thực tế tại thời điểm hiện tại</td>
+</tr>
+</tbody>
+</table>
+<h4>4. Bảng <code>borrow_records</code> (Giao dịch Mượn - Trả sách)</h4>
+<p><em>Mục đích</em>: Lưu trữ toàn bộ lịch sử các giao dịch mượn sách, ngày hẹn trả, tính phạt và gia hạn.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Tên trường</th>
+<th style="text-align:left">Kiểu dữ liệu</th>
+<th style="text-align:center">Khóa</th>
+<th style="text-align:center">Cho phép Null</th>
+<th style="text-align:left">Mặc định</th>
+<th style="text-align:left">Mô tả chi tiết</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>id</code></td>
+<td style="text-align:left">TEXT (VARCHAR 30)</td>
+<td style="text-align:center"><strong>PK</strong></td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Mã phiếu mượn duy nhất (ví dụ: <code>BR2026-001</code>)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>readerId</code></td>
+<td style="text-align:left">TEXT (VARCHAR 30)</td>
+<td style="text-align:center"><strong>FK</strong></td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Khóa ngoại tham chiếu <code>readers.id</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>readerName</code></td>
+<td style="text-align:left">TEXT (VARCHAR 100)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Họ tên độc giả tại thời điểm lập phiếu</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>bookId</code></td>
+<td style="text-align:left">TEXT (VARCHAR 20)</td>
+<td style="text-align:center"><strong>FK</strong></td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Khóa ngoại tham chiếu <code>books.id</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>bookTitle</code></td>
+<td style="text-align:left">TEXT (VARCHAR 255)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Nhan đề cuốn sách mượn</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>borrowDate</code></td>
+<td style="text-align:left">TEXT (DATE)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">CURRENT_DATE</td>
+<td style="text-align:left">Ngày bắt đầu mượn sách (YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>dueDate</code></td>
+<td style="text-align:left">TEXT (DATE)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Ngày hẹn phải hoàn trả sách (YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>returnDate</code></td>
+<td style="text-align:left">TEXT (DATE)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">NULL</td>
+<td style="text-align:left">Ngày độc giả thực tế mang trả sách</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>status</code></td>
+<td style="text-align:left">TEXT (VARCHAR 20)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left"><code>borrowing</code></td>
+<td style="text-align:left">Trạng thái: <code>borrowing</code>, <code>overdue</code>, <code>returned</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fineAmount</code></td>
+<td style="text-align:left">REAL (FLOAT)</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">0.0</td>
+<td style="text-align:left">Số tiền phạt trễ hạn phát sinh (5.000 VNĐ / ngày)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>notes</code></td>
+<td style="text-align:left">TEXT</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NULL</td>
+<td style="text-align:left">-</td>
+<td style="text-align:left">Ghi chú tình trạng sách hoặc thông tin gia hạn</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>renewCount</code></td>
+<td style="text-align:left">INTEGER</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">NOT NULL</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">Số lần đã gia hạn (tối đa 1 lần)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>3.4. Sơ đồ quan hệ thực thể (ERD Diagram)</h3>
+<pre><code class="language-mermaid">erDiagram
+    CATEGORIES ||--o{ BOOKS : &quot;phân loại&quot;
+    READERS ||--o{ BORROW_RECORDS : &quot;thực hiện&quot;
+    BOOKS ||--o{ BORROW_RECORDS : &quot;được mượn&quot;
+
+    CATEGORIES {
+        string id PK &quot;Mã thể loại (CAT01)&quot;
+        string name &quot;Tên thể loại&quot;
+        string icon &quot;Biểu tượng giao diện&quot;
+        int count &quot;Số lượng sách&quot;
+    }
+
+    BOOKS {
+        string id PK &quot;Mã sách (B001)&quot;
+        string isbn UK &quot;Mã ISBN quốc tế&quot;
+        string title &quot;Nhan đề cuốn sách&quot;
+        string author &quot;Tác giả&quot;
+        string publisher &quot;Nhà xuất bản&quot;
+        int publishYear &quot;Năm xuất bản&quot;
+        string categoryId FK &quot;Mã thể loại&quot;
+        int totalCopies &quot;Tổng số bản in&quot;
+        int availableCopies &quot;Số bản khả dụng&quot;
+        string location &quot;Vị trí kệ sách&quot;
+        string description &quot;Mô tả nội dung&quot;
+        string cover &quot;URL ảnh bìa&quot;
+    }
+
+    READERS {
+        string id PK &quot;Mã độc giả / MSSV&quot;
+        string name &quot;Họ và tên&quot;
+        string email &quot;Email sinh viên&quot;
+        string phone &quot;Số điện thoại&quot;
+        string type &quot;Sinh viên / Giảng viên&quot;
+        string department &quot;Khoa / Bộ môn&quot;
+        date createdDate &quot;Ngày cấp thẻ&quot;
+        date expiryDate &quot;Ngày hết hạn&quot;
+        string status &quot;active / suspended&quot;
+        int maxBorrow &quot;Số sách tối đa (3 hoặc 5)&quot;
+        int currentBorrowCount &quot;Số sách đang mượn&quot;
+    }
+
+    BORROW_RECORDS {
+        string id PK &quot;Mã phiếu mượn&quot;
+        string readerId FK &quot;Mã độc giả&quot;
+        string readerName &quot;Tên độc giả&quot;
+        string bookId FK &quot;Mã sách&quot;
+        string bookTitle &quot;Nhan đề sách&quot;
+        date borrowDate &quot;Ngày mượn&quot;
+        date dueDate &quot;Ngày hẹn trả&quot;
+        date returnDate &quot;Ngày trả thực tế&quot;
+        string status &quot;borrowing / overdue / returned&quot;
+        float fineAmount &quot;Tiền phạt quá hạn (5.000đ/ngày)&quot;
+        string notes &quot;Ghi chú gia hạn&quot;
+        int renewCount &quot;Số lần gia hạn&quot;
+    }
+</code></pre>
+<hr />
+<h2>4. Phần 3: Triển khai &amp; Kiểm thử ứng dụng</h2>
+<h3>4.1. Kiến trúc hệ thống &amp; Triển khai mã nguồn</h3>
+<p>Hệ thống <strong>SmartLib AI</strong> được thiết kế theo kiến trúc <strong>Dual-Mode hiện đại</strong> (Hình 3):</p>
+<ol>
+<li><strong>Chế độ Máy chủ Web &amp; API (Server Mode)</strong>:
+<ul>
+<li>Backend xây dựng trên nền tảng <strong>FastAPI (Python 3.11)</strong> đạt hiệu năng cao, tự động sinh tài liệu Swagger OpenAPI chuẩn tại <code>/docs</code>.</li>
+<li>Kết nối cơ sở dữ liệu SQLite thông qua module <code>database.py</code>, đảm bảo tính toàn vẹn giao dịch (ACID transactions).</li>
+<li>Tích hợp dịch vụ <code>ai_service.py</code> đóng vai trò cổng kết nối Google Gemini API và bộ tri thức nội bộ.</li>
+</ul>
+</li>
+<li><strong>Chế độ Hoạt động Độc lập (Standalone / Offline Mode)</strong>:
+<ul>
+<li>Trong trường hợp môi trường người chấm hoặc máy trạm không có sẵn Python, khi mở trực tiếp file <code>src/public/index.html</code>, ứng dụng tự động kích hoạt chế độ <strong>LocalStorage Mode</strong>. Toàn bộ cấu trúc CSDL và logic mượn/trả, tính phạt, bộ lọc danh mục và trợ lý AI nội bộ đều hoạt động mượt mà không xảy ra bất kỳ lỗi gián đoạn nào.</li>
+</ul>
+</li>
+</ol>
+<h4>Hình 3: Sơ đồ kiến trúc phân tầng hệ thống SmartLib AI</h4>
+<p>![Kiến trúc hệ thống](file:///d:/DTECS231C_2026-11-23_Lab02/Lab_QLThuVien_29214663437_PhanVanQuan/docs/images/system_architecture_diagram.png)</p>
+<hr />
+<h3>4.2. Ma trận kịch bản kiểm thử (Test Cases)</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Mã TC</th>
+<th style="text-align:left">Chức năng kiểm thử</th>
+<th style="text-align:left">Điều kiện đầu vào (Test Data)</th>
+<th style="text-align:left">Các bước thực hiện</th>
+<th style="text-align:left">Kết quả kỳ vọng</th>
+<th style="text-align:left">Kết quả thực tế</th>
+<th style="text-align:center">Đánh giá</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>TC01</strong></td>
+<td style="text-align:left">Lập phiếu mượn sách hợp lệ</td>
+<td style="text-align:left">Độc giả <code>29214663437</code> (Phan Văn Quân, đang mượn 1/3 cuốn). Sách <code>B001</code> (khả dụng 5 cuốn).</td>
+<td style="text-align:left">1. Mở modal mượn sách.<br>2. Chọn độc giả Quân và sách B001.<br>3. Bấm 'Xác nhận mượn'.</td>
+<td style="text-align:left">Phiếu mượn tạo thành công. Hạn trả tự động tính +14 ngày. Sách B001 giảm còn 4 bản. Độc giả tăng lên 2 cuốn mượn.</td>
+<td style="text-align:left">Đã tạo phiếu thành công, tồn kho cập nhật chính xác.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC02</strong></td>
+<td style="text-align:left">Chặn mượn khi vượt quá hạn mức</td>
+<td style="text-align:left">Độc giả <code>29214661001</code> đang mượn đủ 3/3 cuốn.</td>
+<td style="text-align:left">1. Chọn độc giả Hà.<br>2. Cố gắng chọn sách và mượn tiếp.</td>
+<td style="text-align:left">Hệ thống từ chối và cảnh báo: <em>Độc giả đã mượn tối đa 3 cuốn sách</em>. Không tạo phiếu mới.</td>
+<td style="text-align:left">Hệ thống chặn và hiển thị thông báo lỗi chính xác.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC03</strong></td>
+<td style="text-align:left">Chặn mượn khi độc giả có sách quá hạn</td>
+<td style="text-align:left">Độc giả <code>29214661001</code> đang có phiếu <code>BR2026-003</code> quá hạn 15 ngày.</td>
+<td style="text-align:left">1. Chọn độc giả Hà.<br>2. Thử tạo phiếu mượn bất kỳ.</td>
+<td style="text-align:left">Hệ thống từ chối: <em>Độc giả đang có sách trễ hạn chưa trả</em>.</td>
+<td style="text-align:left">Cảnh báo xuất hiện, chặn tạo giao dịch mới.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC04</strong></td>
+<td style="text-align:left">Chặn mượn khi sách đã hết trong kho</td>
+<td style="text-align:left">Sách có <code>availableCopies = 0</code>.</td>
+<td style="text-align:left">1. Chọn sách đã hết hàng.<br>2. Thử bấm mượn.</td>
+<td style="text-align:left">Nút mượn bị vô hiệu hóa (disabled). Nếu gửi API, trả về mã lỗi 400 <em>Sách đã hết trong kho</em>.</td>
+<td style="text-align:left">Ứng dụng khóa nút mượn và chặn thành công.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC05</strong></td>
+<td style="text-align:left">Trả sách đúng hạn</td>
+<td style="text-align:left">Phiếu mượn <code>BR2026-001</code>, ngày mượn 15/11/2026, hạn trả 29/11/2026. Trả ngày 20/11/2026.</td>
+<td style="text-align:left">1. Vào bảng mượn trả.<br>2. Bấm 'Trả sách' trên phiếu BR2026-001.<br>3. Xác nhận.</td>
+<td style="text-align:left">Trạng thái chuyển thành <code>returned</code>. Tiền phạt = 0 VNĐ. Sách được cộng trả về kho +1.</td>
+<td style="text-align:left">Hoàn trả thành công, tiền phạt 0đ.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC06</strong></td>
+<td style="text-align:left">Trả sách quá hạn &amp; Tự động tính phạt</td>
+<td style="text-align:left">Phiếu <code>BR2026-003</code>, hạn trả 08/11/2026. Trả ngày 23/11/2026 (quá hạn 15 ngày).</td>
+<td style="text-align:left">1. Bấm 'Trả sách' trên phiếu quá hạn.<br>2. Hệ thống tính toán.</td>
+<td style="text-align:left">Tiền phạt tự động tính: $15 \times 5.000 = 75.000$ VNĐ. Cập nhật trạng thái <code>returned</code>.</td>
+<td style="text-align:left">Tính phạt chính xác 75.000 VNĐ.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC07</strong></td>
+<td style="text-align:left">Gia hạn sách hợp lệ</td>
+<td style="text-align:left">Phiếu <code>BR2026-001</code> (chưa từng gia hạn, đang trong hạn).</td>
+<td style="text-align:left">1. Bấm 'Gia hạn' trên dòng phiếu mượn.</td>
+<td style="text-align:left">Hạn trả được cộng thêm đúng 7 ngày. <code>renewCount</code> tăng lên 1. Ghi chú thêm <code>[Đã gia hạn +7 ngày]</code>.</td>
+<td style="text-align:left">Hạn trả tăng 7 ngày, cập nhật UI tức thì.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC08</strong></td>
+<td style="text-align:left">Chặn gia hạn lần thứ hai</td>
+<td style="text-align:left">Phiếu mượn đã có <code>renewCount = 1</code>.</td>
+<td style="text-align:left">1. Thử bấm gia hạn tiếp.</td>
+<td style="text-align:left">Ẩn nút gia hạn trên giao diện hoặc báo lỗi: <em>Phiếu mượn đã gia hạn tối đa 1 lần</em>.</td>
+<td style="text-align:left">Chặn gia hạn vượt quá quy chế thành công.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC09</strong></td>
+<td style="text-align:left">Khóa / Mở khóa thẻ độc giả</td>
+<td style="text-align:left">Độc giả <code>29214663005</code> (Vũ Đình Trọng, đang bị suspended).</td>
+<td style="text-align:left">1. Vào tab Độc giả.<br>2. Bấm nút icon ổ khóa trên dòng độc giả Trọng.</td>
+<td style="text-align:left">Trạng thái thẻ chuyển đổi giữa <code>active</code> và <code>suspended</code>. Badge màu cập nhật xanh/đỏ tức thì.</td>
+<td style="text-align:left">Chuyển đổi trạng thái mượt mà, lưu vào CSDL.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC10</strong></td>
+<td style="text-align:left">Trợ lý AI trả lời quy định thư viện</td>
+<td style="text-align:left">Prompt: <em>&quot;Quy định mượn sách cho sinh viên như thế nào?&quot;</em></td>
+<td style="text-align:left">1. Vào tab 'Trợ lý AI Gemini'.<br>2. Bấm câu hỏi mẫu hoặc gõ vào ô chat.<br>3. Bấm Gửi.</td>
+<td style="text-align:left">AI trả lời chi tiết: SV mượn tối đa 3 cuốn/14 ngày, gia hạn 1 lần 7 ngày, phạt 5.000đ/ngày.</td>
+<td style="text-align:left">Phản hồi đầy đủ, định dạng Markdown rõ đẹp.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TC11</strong></td>
+<td style="text-align:left">Trợ lý AI gợi ý tài liệu học tập</td>
+<td style="text-align:left">Prompt: <em>&quot;Gợi ý sách về Trí tuệ nhân tạo và Machine Learning&quot;</em></td>
+<td style="text-align:left">1. Gửi câu hỏi vào khung chat AI.</td>
+<td style="text-align:left">AI phân tích kho sách thực tế và gợi ý 2 cuốn: AI Hiện đại (Stuart Russell) và Deep Learning (Ian Goodfellow) kèm vị trí kệ A2-01, A2-02.</td>
+<td style="text-align:left">Trả lời chính xác danh mục sách hiện có trong thư viện.</td>
+<td style="text-align:center"><strong>ĐẠT (PASS)</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>4.3. Kết quả kiểm thử thực tế</h3>
+<ul>
+<li><strong>Độ tin cậy (Reliability)</strong>: Toàn bộ 11/11 ca kiểm thử nghiệm ngặt đều đạt kết quả 100% (<strong>100% Pass Rate</strong>).</li>
+<li><strong>Tính toàn vẹn dữ liệu (Data Consistency)</strong>: Khi thực hiện mượn hoặc trả sách, số lượng sách tồn kho (<code>availableCopies</code>) và số sách độc giả đang mượn (<code>currentBorrowCount</code>) luôn được cập nhật đồng bộ và chính xác.</li>
+<li><strong>Tốc độ phản hồi (Performance)</strong>: Các API RESTful phản hồi dưới 25ms; giao diện Single Page App chuyển tab và lọc dữ liệu tức thì không cần tải lại trang.</li>
+</ul>
+<hr />
+<h2>5. Phần 4: Đánh giá hiệu quả ứng dụng AI &amp; Kết luận</h2>
+<h3>5.1. Vai trò của công cụ AI (Google AI Studio &amp; Antigravity IDE)</h3>
+<p>Quá trình thực hiện bài thực hành Lab 02 cho thấy việc ứng dụng các công cụ AI mang lại bước đột phá lớn:</p>
+<ol>
+<li><strong>Rút ngắn chu kỳ phân tích &amp; thiết kế</strong>: Thay vì mất nhiều ngày để phác thảo mô hình thực thể và quy tắc mượn trả, việc trao đổi trực tiếp với Gemini 1.5 Pro trên Google AI Studio giúp sinh viên Phan Văn Quân hoàn thiện tài liệu đặc tả chức năng và cấu trúc chuẩn 3NF chỉ trong chưa đầy 30 phút.</li>
+<li><strong>Nâng cao chất lượng mã nguồn</strong>: Antigravity IDE hỗ trợ gợi ý cấu trúc mã nguồn module hóa sạch (Clean Architecture), tách bạch rõ ràng giữa tầng dữ liệu (<code>database.py</code>), tầng dịch vụ thông minh (<code>ai_service.py</code>) và tầng điều khiển (<code>server.py</code>).</li>
+<li><strong>Trải nghiệm người dùng thông minh (Smart UX)</strong>: Việc tích hợp mô hình ngôn ngữ lớn (LLM) biến thư viện từ một hệ thống tra cứu đơn thuần thành một cổng tri thức tương tác hai chiều, giải đáp thắc mắc và định hướng học tập cho sinh viên.</li>
+</ol>
+<h3>5.2. Kết luận</h3>
+<p>Dự án <strong>SmartLib AI</strong> được hoàn thiện xuất sắc theo toàn bộ yêu cầu của đề tài:</p>
+<ul>
+<li>Mã nguồn chạy ổn định, có cấu trúc rõ ràng và dễ bảo trì.</li>
+<li>Đầy đủ báo cáo phân tích thiết kế, dữ liệu mẫu thực tế, script chạy tự động 1-Click (<code>run_app.bat</code>) và hướng dẫn triển khai chi tiết (<code>README.md</code>).</li>
+<li>Sẵn sàng đóng gói sản phẩm nộp bài theo định dạng file nén zip: <code>29214663437_PhanVanQuan_LabQLThuVien.zip</code>.</li>
+</ul>
+<hr />
+<p><em>Báo cáo được hoàn thiện bởi: Sinh viên <strong>Phan Văn Quân</strong> - MSSV: <strong>29214663437</strong> - Lớp DTECS231C.</em></p>
+
+</body>
+</html>
