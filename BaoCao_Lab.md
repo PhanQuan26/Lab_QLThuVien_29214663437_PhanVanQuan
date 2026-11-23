@@ -8,6 +8,7 @@
 * **Sinh viên thực hiện**: **Phan Văn Quân**
 * **Mã số sinh viên (MSSV)**: **29214663437**
 * **Lớp sinh hoạt**: DTECS231C
+* **GitHub Repository**: [https://github.com/PhanQuan26/Lab_QLThuVien_29214663437_PhanVanQuan](https://github.com/PhanQuan26/Lab_QLThuVien_29214663437_PhanVanQuan)
 * **Công cụ hỗ trợ AI**: Google AI Studio (Gemini 1.5/2.0), Antigravity IDE
 * **Môi trường & Công nghệ**: Python 3.11, FastAPI, SQLite, HTML5/CSS3/JavaScript, Chart.js, LocalStorage
 

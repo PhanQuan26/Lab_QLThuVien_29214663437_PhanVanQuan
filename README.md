@@ -3,6 +3,7 @@
 > **BÀI THỰC HÀNH 02 (LAB 02)**: Phân tích, thiết kế và xây dựng hệ thống quản lý thư viện ứng dụng công cụ AI  
 > **Sinh viên thực hiện**: **Phan Văn Quân**  
 > **Mã số sinh viên (MSSV)**: **29214663437**  
+> **GitHub Repository**: [https://github.com/PhanQuan26/Lab_QLThuVien_29214663437_PhanVanQuan](https://github.com/PhanQuan26/Lab_QLThuVien_29214663437_PhanVanQuan)  
 > **Công cụ AI ứng dụng**: Google AI Studio (Gemini 1.5/2.0), Antigravity IDE  
 
 ---
@@ -92,28 +93,14 @@ Hệ thống đã nạp sẵn bộ dữ liệu thực tế:
 
 ---
 
-## 5. Hướng dẫn đẩy mã nguồn lên GitHub
+## 5. Kho lưu trữ GitHub (Repository)
 
-Để đưa mã nguồn lên kho lưu trữ GitHub cá nhân:
+Dự án đã được đẩy lên GitHub tại địa chỉ chính thức:  
+👉 **[https://github.com/PhanQuan26/Lab_QLThuVien_29214663437_PhanVanQuan](https://github.com/PhanQuan26/Lab_QLThuVien_29214663437_PhanVanQuan)**
 
+Để tải về hoặc cập nhật mã nguồn:
 ```bash
-# 1. Khởi tạo kho Git cục bộ
-git init
-
-# 2. Thêm toàn bộ tệp vào vùng theo dõi
-git add .
-
-# 3. Tạo commit đầu tiên
-git commit -m "feat: Hoan thien he thong Quan Ly Thu Vien AI - Phan Van Quan - 29214663437"
-
-# 4. Đổi tên nhánh chính thành main
-git branch -M main
-
-# 5. Liên kết tới repository trên GitHub (thay URL bằng repo của bạn)
-# git remote add origin https://github.com/[YOUR_USERNAME]/Lab_QLThuVien_29214663437_PhanVanQuan.git
-
-# 6. Đẩy mã nguồn lên GitHub
-# git push -u origin main
+git clone https://github.com/PhanQuan26/Lab_QLThuVien_29214663437_PhanVanQuan.git
 ```
 
 ---
